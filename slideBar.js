@@ -6,15 +6,16 @@ $.fn.extend({
 		//		color: the color of active bar
 		//		pointCss: the point's css
 		//		width: the bar width(or get from the other css file)
+		//		start: the value of begining
 		//		change: when slide the bar will active this function
 		//		done: after user mouseup will active this function
+		//		disable: true or false
 		// }
 		//
 
 		opt = opt || {};
-		var t = this;
+		var t = this.addClass("shelSlideBar");
 		var color = opt.color || "#090";
-		var BGColor = opt.BGColor || "#999";
 		if(t.children("shelSlide").length < 1) {
 			t.append("<div class='shelSlide'></div>")
 		}	
@@ -27,15 +28,33 @@ $.fn.extend({
 		if(typeof opt.pointCss != "undefined"){
 			p.css(opt.pointCss);
 		}
-		p.css({"top": -(p.height() - t.height()) / 2 * 3, "left": -p.width() / 2});
+		p.css({"left": -p.width() / 2});
 
 		var tw = t.width() - p.width();
 
-		t.css("background-color", BGColor);
+		if(typeof opt.BGColor != "undefined") {
+			t.css("background-color", opt.BGColor);
+		}
+		if(opt.disable) {
+			t.css("opacity", "0.5");
+			p.css("display", "none");
+			b.css("display", "none");
+			return t;
+		}
 		t.on("mousedown", ".shelSlidePoint", function(e) {
 			$("body").on("mousemove", pointMove)
 				.on("mouseup", mouseUp);
 		});
+
+		if(typeof opt.start != "undefeined") {
+			var start = Middle(0, opt.start, 100);
+			var startPx = start * tw / 100;
+			p.css("left", startPx);
+			t.attr("data-slide", start);
+			b.width(startPx + p.width() / 2);
+		}
+
+		return t;
 
 		function pointMove(e) {
 			var pos = e.pageX - t.offset().left - p.width() / 2;
