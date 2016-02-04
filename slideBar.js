@@ -16,7 +16,7 @@ $.fn.extend({
 		opt = opt || {};
 		var t = this.addClass("shelSlideBar");
 		var color = opt.color || "#090";
-		if(t.children("shelSlide").length < 1) {
+		if(t.children(".shelSlide").length < 1) {
 			t.append("<div class='shelSlide'></div>")
 		}	
 		if(t.children(".shelSlidePoint").length < 1) {
@@ -35,11 +35,16 @@ $.fn.extend({
 		if(typeof opt.BGColor != "undefined") {
 			t.css("background-color", opt.BGColor);
 		}
+		console.log(opt);
 		if(opt.disable) {
 			t.css("opacity", "0.5");
 			p.css("display", "none");
 			b.css("display", "none");
 			return t;
+		}else {
+			t.css("opacity", "");
+			p.css("display", "");
+			b.css("display", "");
 		}
 		t.on("mousedown", ".shelSlidePoint", function(e) {
 			$("body").on("mousemove", pointMove)
