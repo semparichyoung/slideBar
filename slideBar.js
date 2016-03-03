@@ -35,7 +35,7 @@ $.fn.extend({
 		if(typeof opt.BGColor != "undefined") {
 			t.css("background-color", opt.BGColor);
 		}
-		console.log(opt);
+		// console.log(opt);
 		if(opt.disable) {
 			t.css("opacity", "0.5");
 			p.css("display", "none");
@@ -53,10 +53,9 @@ $.fn.extend({
 
 		if(typeof opt.start != "undefeined") {
 			var start = Middle(0, opt.start, 100);
-			var startPx = start * tw / 100;
-			p.css("left", startPx);
+			p.css("left", start + "%");
 			t.attr("data-slide", start);
-			b.width(startPx + p.width() / 2);
+			b.width(start + "%");
 		}
 
 		return t;
@@ -64,11 +63,11 @@ $.fn.extend({
 		function pointMove(e) {
 			var pos = e.pageX - t.offset().left - p.width() / 2;
 			pos = Middle(0, pos, tw);
-			p.css("left", pos);
 			var val = pos / tw * 100;
+			p.css("left", val + "%");
 			t.attr("data-slide", val);
 			// t.css("background-image", "linear-gradient(to right, " + color + " " + val + "%, " + BGColor + " " + val + "%)");
-			b.width(pos + p.width() / 2);
+			b.width(val + "%");
 			if(typeof opt.change == "function") {
 				opt.change(val);
 			}
